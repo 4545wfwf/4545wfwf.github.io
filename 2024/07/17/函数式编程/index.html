@@ -1,0 +1,458 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>函数式编程 | 晚风的喵喵屋吖</title><meta name="author" content="晚风温柔苍生"><meta name="copyright" content="晚风温柔苍生"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="函数式编程是另一种软件开发方法。在函数式编程中，代码被组织成较小的基本的函数，可以结合起来构建复杂的程序。 在这个课程中，你将学习函数式编程的核心概念，包括纯函数、如何避免突变、如何使用 .map() 和 .filter() 等方法编写更整洁的代码。 学习函数式编程函数式编程是一种方案简单、功能独立、对作用域外没有任何副作用的编程范式：INPUT -&gt; PROCESS -&gt; OUTPU">
+<meta property="og:type" content="article">
+<meta property="og:title" content="函数式编程">
+<meta property="og:url" content="http://example.com/2024/07/17/%E5%87%BD%E6%95%B0%E5%BC%8F%E7%BC%96%E7%A8%8B/index.html">
+<meta property="og:site_name" content="晚风的喵喵屋吖">
+<meta property="og:description" content="函数式编程是另一种软件开发方法。在函数式编程中，代码被组织成较小的基本的函数，可以结合起来构建复杂的程序。 在这个课程中，你将学习函数式编程的核心概念，包括纯函数、如何避免突变、如何使用 .map() 和 .filter() 等方法编写更整洁的代码。 学习函数式编程函数式编程是一种方案简单、功能独立、对作用域外没有任何副作用的编程范式：INPUT -&gt; PROCESS -&gt; OUTPU">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://example.com/img/index%20img.jpg">
+<meta property="article:published_time" content="2024-07-17T15:15:59.304Z">
+<meta property="article:modified_time" content="2024-07-19T04:48:47.378Z">
+<meta property="article:author" content="晚风温柔苍生">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://example.com/img/index%20img.jpg"><link rel="shortcut icon" href="/img/favicon.jpg"><link rel="canonical" href="http://example.com/2024/07/17/%E5%87%BD%E6%95%B0%E5%BC%8F%E7%BC%96%E7%A8%8B/index.html"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css?v=4.14.0-b3"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.5.1/css/all.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui@5.0.35/dist/fancybox/fancybox.min.css" media="print" onload="this.media='all'"><script>(()=>{
+      const saveToLocal = {
+        set: (key, value, ttl) => {
+          if (ttl === 0) return
+          const now = Date.now()
+          const expiry = now + ttl * 86400000
+          const item = {
+            value,
+            expiry
+          }
+          localStorage.setItem(key, JSON.stringify(item))
+        },
+      
+        get: key => {
+          const itemStr = localStorage.getItem(key)
+      
+          if (!itemStr) {
+            return undefined
+          }
+          const item = JSON.parse(itemStr)
+          const now = Date.now()
+      
+          if (now > item.expiry) {
+            localStorage.removeItem(key)
+            return undefined
+          }
+          return item.value
+        }
+      }
+      
+      window.btf = {
+        saveToLocal: saveToLocal,
+        getScript: (url, attr = {}) => new Promise((resolve, reject) => {
+          const script = document.createElement('script')
+          script.src = url
+          script.async = true
+          script.onerror = reject
+          script.onload = script.onreadystatechange = function() {
+            const loadState = this.readyState
+            if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+            script.onload = script.onreadystatechange = null
+            resolve()
+          }
+
+          Object.keys(attr).forEach(key => {
+            script.setAttribute(key, attr[key])
+          })
+
+          document.head.appendChild(script)
+        }),
+
+        getCSS: (url, id = false) => new Promise((resolve, reject) => {
+          const link = document.createElement('link')
+          link.rel = 'stylesheet'
+          link.href = url
+          if (id) link.id = id
+          link.onerror = reject
+          link.onload = link.onreadystatechange = function() {
+            const loadState = this.readyState
+            if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+            link.onload = link.onreadystatechange = null
+            resolve()
+          }
+          document.head.appendChild(link)
+        }),
+
+        addGlobalFn: (key, fn, name = false, parent = window) => {
+          const pjaxEnable = false
+          if (!pjaxEnable && key.startsWith('pjax')) return
+
+          const globalFn = parent.globalFn || {}
+          const keyObj = globalFn[key] || {}
+    
+          if (name && keyObj[name]) return
+    
+          name = name || Object.keys(keyObj).length
+          keyObj[name] = fn
+          globalFn[key] = keyObj
+          parent.globalFn = globalFn
+        }
+      }
+    
+      const activateDarkMode = () => {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      const activateLightMode = () => {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+
+      btf.activateDarkMode = activateDarkMode
+      btf.activateLightMode = activateLightMode
+      
+      const t = saveToLocal.get('theme')
+    
+        if (t === 'dark') activateDarkMode()
+        else if (t === 'light') activateLightMode()
+      
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    
+      const detectApple = () => {
+        if(/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
+          document.documentElement.classList.add('apple')
+        }
+      }
+      detectApple()
+    })()</script><script>const GLOBAL_CONFIG = {
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"/search.xml","preload":false,"top_n_per_article":1,"unescape":false,"languages":{"hits_empty":"找不到您查询的内容：${query}","hits_stats":"共找到 ${hits} 篇文章"}},
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlight.js","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false,"highlightFullpage":true,"highlightMacStyle":false},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  dateSuffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  infinitegrid: {
+    js: 'https://cdn.jsdelivr.net/npm/@egjs/infinitegrid@4.11.1/dist/infinitegrid.min.js',
+    buttonText: '加载更多'
+  },
+  isPhotoFigcaption: false,
+  islazyload: false,
+  isAnchor: false,
+  percent: {
+    toc: true,
+    rightside: false,
+  },
+  autoDarkmode: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: '函数式编程',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2024-07-19 12:48:47'
+}</script><meta name="generator" content="Hexo 7.3.0"></head><body><div id="web_bg"></div><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src="/img/favicon.jpg" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="sidebar-site-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">12</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">0</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">0</div></a></div><hr class="custom-hr"/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 时间轴</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><span class="site-page group"><i class="fa-fw fas fa-list"></i><span> 娱乐</span><i class="fas fa-chevron-down"></i></span><ul class="menus_item_child"><li><a class="site-page child" href="/music/"><i class="fa-fw fas fa-music"></i><span> 音乐</span></a></li><li><a class="site-page child" href="/movies/"><i class="fa-fw fas fa-video"></i><span> 影片</span></a></li><li><a class="site-page child" href="/Gallery/"><i class="fa-fw fas fa-images"></i><span> 照片</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友链</span></a></div><div class="menus_item"><a class="site-page" href="/messageboard/"><i class="fa-fw fas fa-paper-plane"></i><span> 留言板</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url('/img/index%20img.jpg')"><nav id="nav"><span id="blog-info"><a href="/" title="晚风的喵喵屋吖"><span class="site-name">晚风的喵喵屋吖</span></a></span><div id="menus"><div id="search-button"><span class="site-page social-icon search"><i class="fas fa-search fa-fw"></i><span> 搜索</span></span></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 时间轴</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><span class="site-page group"><i class="fa-fw fas fa-list"></i><span> 娱乐</span><i class="fas fa-chevron-down"></i></span><ul class="menus_item_child"><li><a class="site-page child" href="/music/"><i class="fa-fw fas fa-music"></i><span> 音乐</span></a></li><li><a class="site-page child" href="/movies/"><i class="fa-fw fas fa-video"></i><span> 影片</span></a></li><li><a class="site-page child" href="/Gallery/"><i class="fa-fw fas fa-images"></i><span> 照片</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友链</span></a></div><div class="menus_item"><a class="site-page" href="/messageboard/"><i class="fa-fw fas fa-paper-plane"></i><span> 留言板</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div><div id="toggle-menu"><span class="site-page"><i class="fas fa-bars fa-fw"></i></span></div></div></nav><div id="post-info"><h1 class="post-title">函数式编程</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2024-07-17T15:15:59.304Z" title="发表于 2024-07-17 23:15:59">2024-07-17</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2024-07-19T04:48:47.378Z" title="更新于 2024-07-19 12:48:47">2024-07-19</time></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="函数式编程"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">阅读量:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><p>函数式编程是另一种软件开发方法。在函数式编程中，代码被组织成较小的基本的函数，可以结合起来构建复杂的程序。 在这个课程中，你将学习函数式编程的核心概念，包括纯函数、如何避免突变、如何使用 .map() 和 .filter() 等方法编写更整洁的代码。</p>
+<h1 id="学习函数式编程"><a href="#学习函数式编程" class="headerlink" title="学习函数式编程"></a>学习函数式编程</h1><p>函数式编程是一种方案简单、功能独立、对作用域外没有任何副作用的编程范式：INPUT -&gt; PROCESS -&gt; OUTPUT。</p>
+<p>函数式编程：</p>
+<p>1）功能独立——不依赖于程序的状态（比如可能发生变化的全局变量）；</p>
+<p>2）纯函数——同一个输入永远能得到同一个输出；</p>
+<p>3）有限的副作用——可以严格地限制函数外部对状态的更改。</p>
+<p>学习函数式编程</p>
+<p>freeCodeCamp 的成员们爱喝茶。</p>
+<p>在代码编辑器中，已经为你定义好了prepareTea和getTea函数。 调用 getTea 函数为团队准备 40 杯茶，并将它们存储在 tea4TeamFCC 变量里。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">// 函数返回表示“一杯绿茶（green tea）”的字符串</span><br><span class="line">const prepareTea = () =&gt; &#x27;greenTea&#x27;;</span><br><span class="line"></span><br><span class="line">/*</span><br><span class="line">有一个函数（代表茶的种类）和需要几杯茶，下面的函数返回一个数组，包含字符串（每个字符串表示一杯特别种类的茶）。</span><br><span class="line">*/</span><br><span class="line">const getTea = (numOfCups) =&gt; &#123;</span><br><span class="line">  const teaCups = [];</span><br><span class="line"></span><br><span class="line">  for(let cups = 1; cups &lt;= numOfCups; cups += 1) &#123;</span><br><span class="line">    const teaCup = prepareTea();</span><br><span class="line">    teaCups.push(teaCup);</span><br><span class="line">  &#125;</span><br><span class="line">  return teaCups;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">// 只修改这一行下面的代码</span><br><span class="line">const tea4TeamFCC = getTea(40);</span><br><span class="line">// 只修改这一行上面的代码</span><br></pre></td></tr></table></figure>
+<h1 id="了解函数式编程术语"><a href="#了解函数式编程术语" class="headerlink" title="了解函数式编程术语"></a>了解函数式编程术语</h1><p>FCC 团队需求有变更，现在想要两种茶：绿茶（green tea）和红茶（black tea）。 事实证明，用户需求变更是很常见的。</p>
+<p>基于以上信息，我们需要重构上一节挑战中的 getTea 函数来处理多种茶的请求。 我们可以修改 getTea 接受一个函数作为参数，使它能够修改茶的类型。 这让 getTea 更灵活，也使需求变更时为程序员提供更多控制权。</p>
+<p>首先，我们将介绍一些术语：</p>
+<p>Callbacks 是被传递到另一个函数中调用的函数。 你应该已经在其他函数中看过这个写法，例如在 filter 中，回调函数告诉 JavaScript 以什么规则过滤数组。</p>
+<p>函数就像其他正常值一样，可以赋值给变量、传递给另一个函数，或从其它函数返回，这种函数叫做头等 first class 函数。 在 JavaScript 中，所有函数都是头等函数。</p>
+<p>将函数作为参数或将函数作为返回值返回的函数叫作高阶函数。</p>
+<p>当函数被传递给另一个函数或从另一个函数返回时，那些传入或返回的函数可以叫作 lambda。</p>
+<p>了解函数式编程术语</p>
+<p>准备 27 杯绿茶和 13 杯红茶，分别存入 tea4GreenTeamFCC 和 tea4BlackTeamFCC 变量。 请注意，getTea 函数已经变了，现在它接收一个函数作为第一个参数。</p>
+<p>注意：数据（茶的数量）作为最后一个参数。 我们将在后面的课程中对此进行更多讨论。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line">// 函数返回表示“一杯绿茶（green tea）”的字符串</span><br><span class="line">const prepareGreenTea = () =&gt; &#x27;greenTea&#x27;;</span><br><span class="line"></span><br><span class="line">// 函数返回表示“一杯红茶（black tea）”的字符串</span><br><span class="line">const prepareBlackTea = () =&gt; &#x27;blackTea&#x27;;</span><br><span class="line"></span><br><span class="line">/*</span><br><span class="line">有一个函数（代表茶的种类）和需要几杯茶，下面的函数返回一个数组，包含字符串（每个字符串表示一杯特别种类的茶）。</span><br><span class="line">*/</span><br><span class="line">const getTea = (prepareTea, numOfCups) =&gt; &#123;</span><br><span class="line">  const teaCups = [];</span><br><span class="line"></span><br><span class="line">  for(let cups = 1; cups &lt;= numOfCups; cups += 1) &#123;</span><br><span class="line">    const teaCup = prepareTea();</span><br><span class="line">    teaCups.push(teaCup);</span><br><span class="line">  &#125;</span><br><span class="line">  return teaCups;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">// 只修改这一行下面的代码</span><br><span class="line">const tea4GreenTeamFCC = getTea(prepareGreenTea,27);</span><br><span class="line">const tea4BlackTeamFCC = getTea(prepareBlackTea,13);</span><br><span class="line">// 只修改这一行上面的代码</span><br><span class="line"></span><br><span class="line">console.log(</span><br><span class="line">  tea4GreenTeamFCC,</span><br><span class="line">  tea4BlackTeamFCC</span><br><span class="line">);</span><br></pre></td></tr></table></figure>
+<h1 id="了解使用命令式编程的危害"><a href="#了解使用命令式编程的危害" class="headerlink" title="了解使用命令式编程的危害"></a>了解使用命令式编程的危害</h1><p>使用函数式编程是一个好的习惯。 它使你的代码易于管理，避免潜在的 bug。 但在开始之前，先看看命令式编程方法，以强调你可能有什么问题。</p>
+<p>在英语 (以及许多其他语言) 中，命令式时态用来发出指令。 同样，命令式编程是向计算机提供一套执行任务的声明。</p>
+<p>命令式编程常常改变程序状态，例如更新全局变量。 一个典型的例子是编写 for 循环，它为一个数组的索引提供了准确的迭代方向。</p>
+<p>相反，函数式编程是声明式编程的一种形式。 通过调用方法或函数来告诉计算机要做什么。</p>
+<p>JavaScript 提供了许多处理常见任务的方法，所以你无需写出计算机应如何执行它们。 例如，你可以用 map 函数替代上面提到的 for 循环来处理数组迭代。 这有助于避免语义错误，如调试章节介绍的 “Off By One Errors”。</p>
+<p>考虑这样的场景：你正在浏览器中浏览网页，并想操作你打开的标签。 下面我们来试试用面向对象的思路来描述这种情景。</p>
+<p>窗口对象由选项卡组成，通常会打开多个窗口。 窗口对象中每个打开网站的标题都保存在一个数组中。 在对浏览器进行了如打开新标签、合并窗口、关闭标签之类的操作后，你需要输出所有打开的标签。 关掉的标签将从数组中删除，新打开的标签（为简单起见）则添加到数组的末尾。</p>
+<p>代码编辑器中显示了此功能的实现，其中包含 tabOpen()，tabClose()，和 join() 函数。 tabs 数组是窗口对象的一部分用于储存打开页面的名称。</p>
+<p>了解使用命令式编程的危害</p>
+<p>在编辑器中运行代码。 它使用了有副作用的方法，导致输出错误。 存储在 finalTabs.tabs 中的打开标签的最终列表应该是 [‘FB’, ‘Gitter’, ‘Reddit’, ‘Twitter’, ‘Medium’, ‘new tab’, ‘Netflix’, ‘YouTube’, ‘Vine’, ‘GMail’, ‘Work mail’, ‘Docs’, ‘freeCodeCamp’, ‘new tab’]，但输出会略有不同。</p>
+<p>修改 Window.prototype.tabClose 使其删除正确的标签。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br></pre></td><td class="code"><pre><span class="line">// tabs 是在窗口中打开的每个站点的 title 的数组</span><br><span class="line">const Window = function(tabs) &#123;</span><br><span class="line">  this.tabs = tabs; // 我们记录对象内部的数组</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">// 当你将两个窗口合并为一个窗口时</span><br><span class="line">Window.prototype.join = function(otherWindow) &#123;</span><br><span class="line">  this.tabs = this.tabs.concat(otherWindow.tabs);</span><br><span class="line">  return this;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">// 当你在最后打开一个选项卡时</span><br><span class="line">Window.prototype.tabOpen = function(tab) &#123;</span><br><span class="line">  this.tabs.push(&#x27;new tab&#x27;); // 我们现在打开一个新的选项卡</span><br><span class="line">  return this;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">// 当你关闭一个选项卡时</span><br><span class="line">Window.prototype.tabClose = function(index) &#123;</span><br><span class="line"></span><br><span class="line">  // 只修改这一行下面的代码</span><br><span class="line"></span><br><span class="line"> const tabsBeforeIndex = this.tabs.slice(0, index); // get the tabs before the tab</span><br><span class="line"> const tabsAfterIndex = this.tabs.slice(index + 1); // get the tabs after the tab</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">  this.tabs = tabsBeforeIndex.concat(tabsAfterIndex); // 将它们合并起来</span><br><span class="line"></span><br><span class="line">  // 只修改这一行上面的代码</span><br><span class="line"></span><br><span class="line">  return this;</span><br><span class="line"> &#125;;</span><br><span class="line"></span><br><span class="line">// 我们创建三个浏览器窗口</span><br><span class="line">const workWindow = new Window([&#x27;GMail&#x27;, &#x27;Inbox&#x27;, &#x27;Work mail&#x27;, &#x27;Docs&#x27;, &#x27;freeCodeCamp&#x27;]); // 你的邮箱、Google Drive 和其他工作地点</span><br><span class="line">const socialWindow = new Window([&#x27;FB&#x27;, &#x27;Gitter&#x27;, &#x27;Reddit&#x27;, &#x27;Twitter&#x27;, &#x27;Medium&#x27;]); // 社交网站</span><br><span class="line">const videoWindow = new Window([&#x27;Netflix&#x27;, &#x27;YouTube&#x27;, &#x27;Vimeo&#x27;, &#x27;Vine&#x27;]); // 娱乐网站</span><br><span class="line"></span><br><span class="line">// 现在执行打开选项卡，关闭选项卡和其他操作</span><br><span class="line">const finalTabs = socialWindow</span><br><span class="line">  .tabOpen() // 打开一个新的选项卡，显示猫的图片</span><br><span class="line">  .join(videoWindow.tabClose(2)) // 关闭视频窗口的第三个选项卡，并合并</span><br><span class="line">  .join(workWindow.tabClose(1).tabOpen());</span><br><span class="line">console.log(finalTabs.tabs);</span><br></pre></td></tr></table></figure>
+<h1 id="使用函数式编程避免变化和副作用"><a href="#使用函数式编程避免变化和副作用" class="headerlink" title="使用函数式编程避免变化和副作用"></a>使用函数式编程避免变化和副作用</h1><p>如果你还没想通，上一个挑战的问题出在 tabClose() 函数里的 splice。 不幸的是，splice 修改了调用它的原始数组，所以第二次调用它时是基于修改后的数组，才给出了意料之外的结果。</p>
+<p>这是一个小例子，还有更广义的定义——在变量，数组或对象上调用一个函数，这个函数会改变对象中的变量或其他东西。</p>
+<p>函数式编程的核心原则之一是不改变任何东西。 变化会导致错误。 如果一个函数不改变传入的参数、全局变量等数据，那么它造成问题的可能性就会小很多。</p>
+<p>前面的例子没有任何复杂的操作，但是 splice 方法改变了原始数组，导致 bug 产生。</p>
+<p>回想一下，在函数式编程中，改变或变更叫做 mutation，这种改变的结果叫做“副作用”（side effect）。 理想情况下，函数应该是不会产生任何副作用的 pure function。</p>
+<p>让我们尝试掌握这个原则：不要改变代码中的任何变量或对象。</p>
+<p>使用函数式编程避免变化和副作用</p>
+<p>填写 incrementer 函数的代码，使其返回值为全局变量 fixedValue 增加 1 。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">// 全局变量</span><br><span class="line">let fixedValue = 4;</span><br><span class="line"></span><br><span class="line">function incrementer() &#123;</span><br><span class="line">  // 只修改这一行下面的代码</span><br><span class="line"> // 创建一个fixedValue的副本  </span><br><span class="line">  let tempValue = fixedValue;  </span><br><span class="line">  // 对副本进行操作  </span><br><span class="line">  tempValue = tempValue + 1;  </span><br><span class="line">  // 返回操作后的副本值，而不改变全局的fixedValue  </span><br><span class="line">  return tempValue;  </span><br><span class="line"></span><br><span class="line">  // 只修改这一行上面的代码</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h1 id="传递参数以避免函数中的外部依赖"><a href="#传递参数以避免函数中的外部依赖" class="headerlink" title="传递参数以避免函数中的外部依赖"></a>传递参数以避免函数中的外部依赖</h1><p>上一个挑战是更接近函数式编程原则的挑战，但是仍然缺少一些东西。</p>
+<p>虽然我们没有改变全局变量值，但在没有全局变量 fixedValue 的情况下，incrementer 函数将不起作用。</p>
+<p>函数式编程的另一个原则是：总是显式声明依赖关系。 如果函数依赖于一个变量或对象，那么将该变量或对象作为参数直接传递到函数中。</p>
+<p>这样做会有很多好处。 其中一点是让函数更容易测试，因为你确切地知道参数是什么，并且这个参数也不依赖于程序中的任何其他内容。</p>
+<p>其次，这样做可以让你更加自信地更改，删除或添加新代码。 因为你很清楚哪些是可以改的，哪些是不可以改的，这样你就知道哪里可能会有潜在的陷阱。</p>
+<p>最后，无论代码的哪一部分执行它，函数总是会为同一组输入生成相同的输出。</p>
+<p>传递参数以避免函数中的外部依赖</p>
+<p>更新 incrementer 函数，明确声明其依赖项。</p>
+<p>编写 incrementer 函数，获取它的参数，然后将值增加 1。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">// 全局变量</span><br><span class="line">let fixedValue = 4;</span><br><span class="line"></span><br><span class="line">// 只修改这一行下面的代码</span><br><span class="line">function incrementer(value) &#123;  </span><br><span class="line">  // 明确声明了依赖项：虽然此函数不直接依赖于fixedValue，但它依赖于传入的value参数  </span><br><span class="line">  return value + 1; // 将传入的参数值增加1后返回  </span><br><span class="line"></span><br><span class="line">  // 只修改这一行上面的代码</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h1 id="在函数中重构全局变量"><a href="#在函数中重构全局变量" class="headerlink" title="在函数中重构全局变量"></a>在函数中重构全局变量</h1><p>目前为止，我们已经看到了函数式编程的两个原则：</p>
+<p>不要更改变量或对象 - 创建新变量和对象，并在需要时从函数返回它们。 提示：使用类似 const newArr &#x3D; arrVar 的东西，其中 arrVar 是一个数组，只会创建对现有变量的引用，而不是副本。 所以更改 newArr 中的值会同时更改 arrVar 中的值。</p>
+<p>声明函数参数 - 函数内的任何计算仅取决于参数，而不取决于任何全局对象或变量。</p>
+<p>给数字增加 1 不够有意思，但是我们可以在处理数组或更复杂的对象时应用这些原则。</p>
+<p>在函数中重构全局变量</p>
+<p>重构代码，使全局数组 bookList 在函数内部不会被改变。 add 函数可以将指定的 bookName 增加到数组末尾并返回一个新的数组（列表）。 remove 函数可以从数组中移除指定 bookName。</p>
+<p>注意： 两个函数都应该返回一个数组，任何新参数都应该在 bookName 参数之前添加。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">// 全局变量</span><br><span class="line">const bookList = [&quot;The Hound of the Baskervilles&quot;, &quot;On The Electrodynamics of Moving Bodies&quot;, &quot;Philosophiæ Naturalis Principia Mathematica&quot;, &quot;Disquisitiones Arithmeticae&quot;];</span><br><span class="line"></span><br><span class="line">// 修改这行下面的代码</span><br><span class="line">function add(bL,bookName) &#123;</span><br><span class="line"></span><br><span class="line"> const newBookList = [...bL, bookName];</span><br><span class="line"> return newBookList;</span><br><span class="line"></span><br><span class="line">  // 修改这行上面的代码</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">// 修改这行下面的代码</span><br><span class="line">function remove(bL,bookName) &#123;</span><br><span class="line">const newBookList = bL.filter(book =&gt; book !== bookName);</span><br><span class="line"> return newBookList;</span><br><span class="line">    // 修改这行上面的代码</span><br><span class="line"> &#125;</span><br></pre></td></tr></table></figure>
+<h1 id="使用-map-方法从数组中提取数据"><a href="#使用-map-方法从数组中提取数据" class="headerlink" title="使用 map 方法从数组中提取数据"></a>使用 map 方法从数组中提取数据</h1><p>目前为止，我们已经学会了使用纯函数来避免程序中的副作用。 此外，我们已经看到函数的值仅取决于其输入参数。</p>
+<p>这仅仅是个开始。 顾名思义，函数式编程以函数理论为中心。</p>
+<p>能够将它们作为参数传递给其他函数，从另一个函数返回一个函数是有意义的。 函数在 JavaScript 中被视为 First Class Objects，它们可以像任何其他对象一样使用。 它们可以保存在变量中，存储在对象中，也可以作为函数参数传递。</p>
+<p>让我们从一些简单的数组函数开始，这些函数是数组对象原型上的方法。 在本练习中，我们来了解下数组的 map 方法（即 Array.prototype.map()）。</p>
+<p>请记住，map方法是迭代数组中每一项的方式之一。 在对每个元素应用回调函数后，它会创建一个新数组(不改变原来的数组)。 它这样做时没有改变原始数组。</p>
+<p>当调用回调函数时，传入了三个参数。 第一个参数是当前正在处理的数组项。 第二个参数是当前数组项的索引值，第三个参数是在其上调用 map 方法的数组。</p>
+<p>看下在 users 上使用 map 方法的例子，返回了一个新数组只包含了用户的名字。 为了简化，例子里只使用了回调函数的第一个参数。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">const users = [</span><br><span class="line">  &#123; name: &#x27;John&#x27;, age: 34 &#125;,</span><br><span class="line">  &#123; name: &#x27;Amy&#x27;, age: 20 &#125;,</span><br><span class="line">  &#123; name: &#x27;camperCat&#x27;, age: 10 &#125;</span><br><span class="line">];</span><br><span class="line"></span><br><span class="line">const names = users.map(user =&gt; user.name);</span><br><span class="line">console.log(names);</span><br><span class="line">控制台将显示值 [ &#x27;John&#x27;, &#x27;Amy&#x27;, &#x27;camperCat&#x27; ]。</span><br></pre></td></tr></table></figure>
+<p>使用 map 方法从数组中提取数据</p>
+<p>watchList 数组保存了包含一些电影信息的对象。 在 watchList 上使用 map，将一个新的对象数组赋值给 ratings 变量。 新数组中的每个电影都只能有一个值为电影名称的 title 键，和一个值为 IMDB 评级的 rating 键。 目前编辑器中的代码是使用 for 循环实现，你应该使用 map 表达式替换循环功能。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">// 只修改这一行下面的代码</span><br><span class="line">/*</span><br><span class="line">const ratings = [];</span><br><span class="line"></span><br><span class="line">for (let i = 0; i &lt; watchList.length; i++) &#123;</span><br><span class="line">  ratings.push(&#123;title: watchList[i][&quot;Title&quot;], rating: watchList[i][&quot;imdbRating&quot;]&#125;);</span><br><span class="line">&#125;</span><br><span class="line">*/</span><br><span class="line">const ratings = watchList.map(movie =&gt; (&#123;  </span><br><span class="line">  title: movie.Title, </span><br><span class="line">  rating: movie.imdbRating</span><br><span class="line">&#125;));  </span><br><span class="line">// 只修改这一行上面的代码</span><br><span class="line"></span><br><span class="line">console.log(JSON.stringify(ratings));</span><br></pre></td></tr></table></figure>
+<h1 id="在原型上实现map方法"><a href="#在原型上实现map方法" class="headerlink" title="在原型上实现map方法"></a>在原型上实现map方法</h1><p>之前用到了 Array.prototype.map() 方法（即 map()），通过 map 返回一个与调用它的数组长度相同的数组。 只要它的回调函数不改变原始数组，它就不会改变原始数组。</p>
+<p>换句话说，map 是一个纯函数，它的输出仅取决于输入的数组和作为参数传入的回调函数。 此外，它接收另一个函数作为它的参数。</p>
+<p>实现一个 map，加深对它的了解。 你可以用 for 循环或者 Array.prototype.forEach() 方法。</p>
+<p>在原型上实现 map 方法</p>
+<p>写一个和 Array.prototype.map() 一样的 Array.prototype.myMap()。 不能使用内置的 map 方法。 在 myMap 方法内，可以使用 this 访问 Array 实例。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">Array.prototype.myMap = function(callback) &#123;</span><br><span class="line">  const newArray = [];</span><br><span class="line">  // 只修改这一行下面的代码</span><br><span class="line">// 使用 for 循环遍历数组  </span><br><span class="line">  for (let i = 0; i &lt; this.length; i++) &#123;  </span><br><span class="line">    // 调用回调函数，并将当前元素和索引（可选）作为参数传递  </span><br><span class="line">    // 将回调函数的返回值添加到新数组中  </span><br><span class="line">    newArray.push(callback(this[i], i, this));  </span><br><span class="line">  &#125;  </span><br><span class="line">  // 返回新数组  </span><br><span class="line">  // 只修改这一行上面的代码</span><br><span class="line">  return newArray;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<h1 id="使用-filter-方法从数组中提取数据"><a href="#使用-filter-方法从数组中提取数据" class="headerlink" title="使用 filter 方法从数组中提取数据"></a>使用 filter 方法从数组中提取数据</h1><p>另一个有用的数组方法是 filter()（即 Array.prototype.filter()）。</p>
+<p>filter 在一个数组的每个元素上调用一个函数，并返回一个新的数组，其中只包含该函数返回一个真值的元素，也就是说，一个被传递给 Boolean() 构造函数后返回 true 的值。 换言之，它根据传递给它的函数过滤数组。 和 map 一样，filter 不会改变原始数组。</p>
+<p>回调函数接收三个参数。 第一个参数是当前正在被处理的元素。 第二个参数是这个元素的索引，第三个参数是在其上调用 filter 方法的数组。</p>
+<p>看下在 users 上使用 filter 方法的例子，返回了一个包含了 30 岁以下的用户新数组。 为了简化，例子里只使用了回调函数的第一个参数。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">const users = [</span><br><span class="line">  &#123; name: &#x27;John&#x27;, age: 34 &#125;,</span><br><span class="line">  &#123; name: &#x27;Amy&#x27;, age: 20 &#125;,</span><br><span class="line">  &#123; name: &#x27;camperCat&#x27;, age: 10 &#125;</span><br><span class="line">];</span><br><span class="line"></span><br><span class="line">const usersUnder30 = users.filter(user =&gt; user.age &lt; 30);</span><br><span class="line">console.log(usersUnder30); </span><br></pre></td></tr></table></figure>
+<p>控制台将显示值 [ { name: ‘Amy’, age: 20 }, { name: ‘camperCat’, age: 10 } ]</p>
+<p>使用 filter 方法从数组中提取数据</p>
+<p>watchList 变量中包含一组存有多部电影信息对象。 结合 filter 和 map 返回一个 watchList 只包含 title 和 rating 属性的新数组。 新数组只包含 imdbRating 值大于或等于 8.0 的对象。 请注意，rating 值在对象中保存为字符串，你可能需要将它转换成数字来执行运算。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">// 只修改这一行下面的代码</span><br><span class="line">// 使用 filter 和 map 返回一个只包含 title 和 rating（且 rating &gt;= 8.0）的新数组  </span><br><span class="line">const filteredList = watchList.filter(movie =&gt; parseFloat(movie.imdbRating) &gt;= &quot;8.0&quot;)  </span><br><span class="line"> .map(movie =&gt; (&#123;  </span><br><span class="line"> title: movie.Title, // 注意这里使用 Title 而不是 title，除非您的数据中使用的是小写  </span><br><span class="line">//rating: parseFloat(movie.imdbRating) // 将字符串转换为数字  </span><br><span class="line"> rating: movie.imdbRating </span><br><span class="line">&#125;));  </span><br><span class="line">  </span><br><span class="line">// 只修改这一行上面的代码</span><br><span class="line"></span><br><span class="line">console.log(filteredList);</span><br></pre></td></tr></table></figure>
+<h1 id="在原型上实现-filter-方法"><a href="#在原型上实现-filter-方法" class="headerlink" title="在原型上实现 filter 方法"></a>在原型上实现 filter 方法</h1><p>为了加深对 filter 的理解，可以自己实现一个。 可以用 for 循环或 Array.prototype.forEach()。</p>
+<p>在原型上实现 filter 方法</p>
+<p>编写一个和 Array.prototype.filter() 功能一样的 Array.prototype.myFilter() 方法。 不能使用内置的 filter 方法。 在 myFilter 方法内部，可以使用 this 访问 Array 实例。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">Array.prototype.myFilter = function(callback) &#123;</span><br><span class="line">  const newArray = [];</span><br><span class="line">  // 只修改这一行下面的代码</span><br><span class="line">  // 使用 for 循环遍历数组  </span><br><span class="line">  for (let i = 0; i &lt; this.length; i++) &#123;  </span><br><span class="line">    // 调用回调函数，并将当前元素和索引作为参数传递  </span><br><span class="line">    // 如果回调函数返回 true，则将当前元素添加到新数组中  </span><br><span class="line">    if (callback(this[i], i, this)) &#123;  </span><br><span class="line">      newArray.push(this[i]);  </span><br><span class="line">    &#125;  </span><br><span class="line">  &#125;  </span><br><span class="line">  // 只修改这一行上面的代码</span><br><span class="line">  return newArray;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<h1 id="使用-slice-方法返回数组的一部分"><a href="#使用-slice-方法返回数组的一部分" class="headerlink" title="使用 slice 方法返回数组的一部分"></a>使用 slice 方法返回数组的一部分</h1><p>slice 方法可以从已有数组中返回指定元素。 它接受两个参数，第一个规定从何处开始选取，第二个规定从何处结束选取（不包括该元素）。 如果没有传参，则默认为从数组的开头开始到结尾结束，这是复制整个数组的简单方式。 slice 返回一个新数组，不会修改原始数组。</p>
+<p>举个例子：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">const arr = [&quot;Cat&quot;, &quot;Dog&quot;, &quot;Tiger&quot;, &quot;Zebra&quot;];</span><br><span class="line">const newArray = arr.slice(1, 3);</span><br></pre></td></tr></table></figure>
+<p>newArray 值为 [“Dog”, “Tiger”]</p>
+<p>使用 slice 方法返回数组的一部分<br>在 sliceArray 函数中使用 slice 方法，给出 beginSlice 和 endSlice 索引，返回 anim 数组的一部分。 这个函数应返回一个数组。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">function sliceArray(anim, beginSlice, endSlice) &#123;</span><br><span class="line">  // 只修改这一行下面的代码</span><br><span class="line">return anim.slice(beginSlice, endSlice);</span><br><span class="line"></span><br><span class="line">  // 只修改这一行上面的代码</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">const inputAnim = [&quot;Cat&quot;, &quot;Dog&quot;, &quot;Tiger&quot;, &quot;Zebra&quot;, &quot;Ant&quot;];</span><br><span class="line">sliceArray(inputAnim, 1, 3);</span><br></pre></td></tr></table></figure>
+<h1 id="使用-slice-而不是-splice-从数组中移除元素"><a href="#使用-slice-而不是-splice-从数组中移除元素" class="headerlink" title="使用 slice 而不是 splice 从数组中移除元素"></a>使用 slice 而不是 splice 从数组中移除元素</h1><p>使用数组时经常遇到要删除一些元素并保留数组剩余部分的情况。 为此，JavaScript 提供了 splice 方法，它接收两个参数：从哪里开始删除项目的索引，和要删除的项目数。 如果没有提供第二个参数，默认情况下是移除一直到结尾的所有元素。 但 splice 方法会改变调用它的原始数组。 举个例子：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">const cities = [&quot;Chicago&quot;, &quot;Delhi&quot;, &quot;Islamabad&quot;, &quot;London&quot;, &quot;Berlin&quot;];</span><br><span class="line">cities.splice(3, 1);</span><br></pre></td></tr></table></figure>
+<p>在这里 splice 返回字符串 London 并从城市数组中删除它。 cities 将有值 [“Chicago”, “Delhi”, “Islamabad”, “Berlin”]。</p>
+<p>正如我们在上一次挑战中看到的那样，slice 方法不会改变原始数组，而是返回一个可以保存到变量中的新数组。 回想一下，slice 方法接收两个参数，从开始索引开始选取到结束（不包括该元素），并在新数组中返回这些元素。 使用 slice 方法替代 splice 有助于避免数组变化产生的副作用。</p>
+<p>使用 slice 而不是 splice 从数组中移除元素</p>
+<p>用 slice 代替 splice 重写 nonMutatingSplice 函数。 将 cities 数组长度限制为 3，并返回一个仅包含前 3 项的新数组。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">function nonMutatingSplice(cities) &#123;</span><br><span class="line"></span><br><span class="line">  //return cities.splice(3);</span><br><span class="line">   return cities.slice(0, 3);  </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h1 id="使用-concat-方法组合两个数组"><a href="#使用-concat-方法组合两个数组" class="headerlink" title="使用 concat 方法组合两个数组"></a>使用 concat 方法组合两个数组</h1><p>Concatenation 意思是将元素连接到尾部。 同理，JavaScript 为字符串和数组提供了concat方法。 对数组来说，在一个数组上调用 concat 方法，然后提供另一个数组作为参数添加到第一个数组末尾。 它返回一个新数组，不会改变任何一个原始数组。 举个例子：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[1, 2, 3].concat([4, 5, 6]);</span><br></pre></td></tr></table></figure>
+<p>返回的数组将是 [1, 2, 3, 4, 5, 6]。</p>
+<p>使用 concat 方法组合两个数组</p>
+<p>在 nonMutatingConcat 函数里使用 concat，将 attach 拼接到 original 尾部。 函数返回拼接后的数组。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">function nonMutatingConcat(original, attach) &#123;</span><br><span class="line">  // 只修改这一行下面的代码</span><br><span class="line"></span><br><span class="line">   return original.concat (attach);</span><br><span class="line"></span><br><span class="line">  // 只修改这一行上面的代码</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">const first = [1, 2, 3];</span><br><span class="line">const second = [4, 5];</span><br><span class="line">nonMutatingConcat(first, second);</span><br></pre></td></tr></table></figure>
+<h1 id="使用-concat-而不是-push-将元素添加到数组的末尾"><a href="#使用-concat-而不是-push-将元素添加到数组的末尾" class="headerlink" title="使用 concat 而不是 push 将元素添加到数组的末尾"></a>使用 concat 而不是 push 将元素添加到数组的末尾</h1><p>函数式编程就是创建和使用具有不变性的函数。</p>
+<p>上一个挑战介绍了 concat 方法，这是一种在不改变原始数组的前提下，将数组组合成一个新数组的方法。 将 concat 方法与 push 方法做比较。 push 将一个元素添加到调用它的数组的末尾，这样会改变该数组。 举个例子：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">const arr = [1, 2, 3];</span><br><span class="line">arr.push(4, 5, 6);</span><br></pre></td></tr></table></figure>
+<p>arr 的值被修改为 [1, 2, 3, 4, 5, 6]，这不是函数编程方式。</p>
+<p>concat 方法可以将新项目添加到数组末尾，而不附带改变数组。</p>
+<p>使用 concat 而不是 push 将元素添加到数组的末尾</p>
+<p>修改 nonMutatingPush 函数，用 concat 将 newItem 添加到 original 末尾，而不改变 original 或 newItem 数组。 该函数应返回一个数组。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">function nonMutatingPush(original, newItem) &#123;</span><br><span class="line">  // 只修改这一行下面的代码</span><br><span class="line">  //return original.push(newItem);</span><br><span class="line">  return original.concat(newItem);</span><br><span class="line">  // 只修改这一行上面的代码</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">const first = [1, 2, 3];</span><br><span class="line">const second = [4, 5];</span><br><span class="line">nonMutatingPush(first, second);</span><br></pre></td></tr></table></figure>
+<h1 id="使用-reduce-方法分析数据"><a href="#使用-reduce-方法分析数据" class="headerlink" title="使用 reduce 方法分析数据"></a>使用 reduce 方法分析数据</h1><p>reduce()（即Array.prototype.reduce()），是 JavaScript 所有数组操作中最常用的方法。 几乎可以用reduce方法解决所有数组处理问题。</p>
+<p>reduce 方法是处理数组更通用的方式，而且 filter 和 map 方法都可以当作是 reduce 的特殊实现。 reduce 方法遍历数组中的每个项目并返回单个值（即字符串、数字、对象、数组）。 这是通过在每次迭代中调用一个回调函数来实现的。</p>
+<p>回调函数接受四个参数。 第一个参数称为叠加器，它是上一次迭代中回调函数的返回值，第二个参数是当前正在处理的数组元素，第三个参数是该参数的索引，第四个参数是在其上调用 reduce 方法的数组。</p>
+<p>除了回调函数，reduce 还有一个额外的参数作为叠加器的初始值。 如果没有第二个参数，会跳过第一次迭代，第二次迭代给叠加器传入数组的第一个元素。</p>
+<p>见下面的例子，给 users 数组使用 reduce 方法，返回所有用户数组的和。 为了简化，例子仅使用了回调函数的第一个参数和第二个参数。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">const users = [</span><br><span class="line">  &#123; name: &#x27;John&#x27;, age: 34 &#125;,</span><br><span class="line">  &#123; name: &#x27;Amy&#x27;, age: 20 &#125;,</span><br><span class="line">  &#123; name: &#x27;camperCat&#x27;, age: 10 &#125;</span><br><span class="line">];</span><br><span class="line"></span><br><span class="line">const sumOfAges = users.reduce((sum, user) =&gt; sum + user.age, 0);</span><br><span class="line">console.log(sumOfAges);</span><br></pre></td></tr></table></figure>
+<p>这里控制台将显示值 64。</p>
+<p>在另一个例子里，查看如何返回一个包含用户名称做为属性，其年龄做为值的对象。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">const users = [</span><br><span class="line">  &#123; name: &#x27;John&#x27;, age: 34 &#125;,</span><br><span class="line">  &#123; name: &#x27;Amy&#x27;, age: 20 &#125;,</span><br><span class="line">  &#123; name: &#x27;camperCat&#x27;, age: 10 &#125;</span><br><span class="line">];</span><br><span class="line"></span><br><span class="line">const usersObj = users.reduce((obj, user) =&gt; &#123;</span><br><span class="line">  obj[user.name] = user.age;</span><br><span class="line">  return obj;</span><br><span class="line">&#125;, &#123;&#125;);</span><br><span class="line">console.log(usersObj);</span><br></pre></td></tr></table></figure>
+<p>控制台将显示值 { John: 34, Amy: 20, camperCat: 10 }。</p>
+<p>使用 reduce 方法分析数据</p>
+<p>watchList 是包含一些电影信息的对象。 使用 reduce 查找由 Christopher Nolan 导演的电影的 IMDB 评级平均值。 回想一下之前的挑战，如何 filter 数据，以及使用 map 来获取你想要的数据。 您可能需要创建其他变量，并从 getRating 函数返回平均评分。 请注意，评级在对象中是字符串，需要将其转换为数字再用于数学运算。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">function getRating(watchList) &#123;  </span><br><span class="line"></span><br><span class="line">var averageRating = watchList.filter(x =&gt; x.Director === &quot;Christopher Nolan&quot;).map(x =&gt; Number(x.imdbRating)).reduce((x, y) =&gt; x + y) / watchList.filter(x =&gt; x.Director === &quot;Christopher Nolan&quot;).length;</span><br><span class="line"></span><br><span class="line">  </span><br><span class="line">  return averageRating;  </span><br><span class="line">&#125;  </span><br><span class="line">console.log(getRating(watchList));</span><br></pre></td></tr></table></figure>
+<h1 id="使用高阶函数-map、filter-或者-reduce-来解决复杂问题"><a href="#使用高阶函数-map、filter-或者-reduce-来解决复杂问题" class="headerlink" title="使用高阶函数 map、filter 或者 reduce 来解决复杂问题"></a>使用高阶函数 map、filter 或者 reduce 来解决复杂问题</h1><p>已经接触了高阶函数如 map()、 filter() 和 reduce()的使用，是时候用它们来完成一些复杂的挑战了。</p>
+<p>使用高阶函数 map、filter 或者 reduce 来解决复杂问题</p>
+<p>使用 map()、filter() 和 reduce() 的任何组合完成 squareList 函数的代码。 传递一个包含实数的数组给函数时，函数应返回一个新的数组，只包含正整数（小数不是整数）的平方值， 例如 [-3, 4.8, 5, 3, -3.2] 这样一个包含实数的数组。</p>
+<p>注意： 函数不应该包含任何形式的 for 或者 while 循环或者 forEach() 函数。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">const squareList = arr =&gt; &#123;</span><br><span class="line">  // 只修改这一行下面的代码</span><br><span class="line">  return arr.filter(num =&gt; Number.isInteger(num) &amp;&amp; num &gt; 0).map(num =&gt; num * num); </span><br><span class="line">  // 只修改这一行上面的代码</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">const squaredIntegers = squareList([-3, 4.8, 5, 3, -3.2]);</span><br><span class="line">console.log(squaredIntegers);</span><br></pre></td></tr></table></figure>
+<h1 id="使用-sort-方法按字母顺序给数组排序"><a href="#使用-sort-方法按字母顺序给数组排序" class="headerlink" title="使用 sort 方法按字母顺序给数组排序"></a>使用 sort 方法按字母顺序给数组排序</h1><p>sort 方法可以根据回调函数对数组元素进行排序。</p>
+<p>举个例子：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">function ascendingOrder(arr) &#123;</span><br><span class="line">  return arr.sort(function(a, b) &#123;</span><br><span class="line">    return a - b;</span><br><span class="line">  &#125;);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">ascendingOrder([1, 5, 2, 3, 4]);</span><br></pre></td></tr></table></figure>
+<p>这将返回值 [1, 2, 3, 4, 5]。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">function reverseAlpha(arr) &#123;</span><br><span class="line">  return arr.sort(function(a, b) &#123;</span><br><span class="line">    return a === b ? 0 : a &lt; b ? 1 : -1;</span><br><span class="line">  &#125;);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">reverseAlpha([&#x27;l&#x27;, &#x27;h&#x27;, &#x27;z&#x27;, &#x27;b&#x27;, &#x27;s&#x27;]);</span><br></pre></td></tr></table></figure>
+<p>这将返回值 [‘z’, ‘s’, ‘l’, ‘h’, ‘b’]。</p>
+<p>JavaScript 的默认排序方法是 Unicode 值顺序排序，有时可能会得到意想不到的结果。 因此，建议提供一个回调函数来指定如何对数组项目排序。 这个回调函数通常叫做 compareFunction，它根据 compareFunction 的返回值决定数组元素的排序方式： 如果两个元素 a 和 b，compareFunction(a,b) 返回一个比 0 小的值，那么 a 会在 b 的前面。 如果两个元素 a 和 b，compareFunction(a,b) 返回一个比 0 大的值，那么 b 会在 a 的前面。 如果两个元素 a 和 b，compareFunction(a,b) 返回等于 0 的值，那么 a 和 b 的位置保持不变。</p>
+<p>使用 sort 方法按字母顺序给数组排序</p>
+<p>在 alphabeticalOrder 函数中使用 sort 方法对 arr 中的元素按照字母顺序排列。 该函数应返回一个排序的数组。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">function alphabeticalOrder(arr) &#123;</span><br><span class="line">  // 只修改这一行下面的代码</span><br><span class="line"> // 使用 sort 方法对 arr 中的元素进行字母顺序排序  </span><br><span class="line">  arr.sort();  </span><br><span class="line">  // 返回排序后的数组  </span><br><span class="line">  return arr;  </span><br><span class="line">  </span><br><span class="line">  // 只修改这一行上面的代码</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">alphabeticalOrder([&quot;a&quot;, &quot;d&quot;, &quot;c&quot;, &quot;a&quot;, &quot;z&quot;, &quot;g&quot;]);</span><br></pre></td></tr></table></figure>
+<h1 id="在不更改原始数组的前提下返回排序后的数组"><a href="#在不更改原始数组的前提下返回排序后的数组" class="headerlink" title="在不更改原始数组的前提下返回排序后的数组"></a>在不更改原始数组的前提下返回排序后的数组</h1><p>sort 方法会产生改变原始数组中元素顺序的副作用。 换句话说，它会改变数组的位置。 避免这种情况的一种方法是先将空数组连接到正在排序的数组上（记住 slice 和 concat 返回一个新数组），再用sort方法。</p>
+<p>在不更改原始数组的前提下返回排序后的数组</p>
+<p>在 nonMutatingSort 函数中使用 sort 方法对数组中的元素按升序进行排列。 函数不能改变 globalArray 变量，应返回一个新数组。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">const globalArray = [5, 6, 3, 2, 9];</span><br><span class="line"></span><br><span class="line">function nonMutatingSort(arr) &#123;</span><br><span class="line">  // 只修改这一行下面的代码</span><br><span class="line">  let sortedArray = [...arr]; // 使用扩展运算符或slice方法复制数组  </span><br><span class="line">  sortedArray.sort((a, b) =&gt; a - b); // 对复制后的数组进行升序排序  </span><br><span class="line">  return sortedArray; // 返回新的已排序数组  </span><br><span class="line"></span><br><span class="line">  // 只修改这一行上面的代码</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">nonMutatingSort(globalArray);</span><br></pre></td></tr></table></figure>
+<h1 id="使用-split-方法将字符串拆分成数组"><a href="#使用-split-方法将字符串拆分成数组" class="headerlink" title="使用 split 方法将字符串拆分成数组"></a>使用 split 方法将字符串拆分成数组</h1><p>split 方法将一个字符串分割成一个字符串数组。 它需要一个参数作为分隔符，它可以是用于拆分字符串或正则表达式的一个字符。 举个例子，如果分隔符是空格，你会得到一个单词数组；如果分隔符是空字符串，你会得到一个由字符串中每个字符组成的数组。</p>
+<p>下面是两个用空格分隔一个字符串的例子，另一个是用数字的正则表达式分隔：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">const str = &quot;Hello World&quot;;</span><br><span class="line">const bySpace = str.split(&quot; &quot;);</span><br><span class="line"></span><br><span class="line">const otherString = &quot;How9are7you2today&quot;;</span><br><span class="line">const byDigits = otherString.split(/\d/);</span><br><span class="line">bySpace 将有值 [&quot;Hello&quot;, &quot;World&quot;]，byDigits 将有值 [&quot;How&quot;, &quot;are&quot;, &quot;you&quot;, &quot;today&quot;]。</span><br></pre></td></tr></table></figure>
+<p>因为字符串是不可变的，split 方法操作它们更方便。</p>
+<p>使用 split 方法将字符串拆分成数组</p>
+<p>在 splitify 函数中用 split 方法将 str 分割成单词数组。 这个方法应该返回一个数组。 单词不一定都是用空格分隔，所以数组中不应包含标点符号。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">function splitify(str) &#123;</span><br><span class="line">  // 只修改这一行下面的代码</span><br><span class="line"></span><br><span class="line">  // 首先，将所有非字母数字字符替换为一个空格  </span><br><span class="line">  let tempStr = str.replace(/[^\w\s]/g, &#x27; &#x27;);  </span><br><span class="line">    </span><br><span class="line">  // 然后，将多个连续的空格替换为一个空格  </span><br><span class="line">  tempStr = tempStr.replace(/\s+/g, &#x27; &#x27;);  </span><br><span class="line">    </span><br><span class="line">  // 最后，按空格分割字符串  </span><br><span class="line">  return tempStr.trim().split(/\s+/).filter(Boolean);  </span><br><span class="line">    </span><br><span class="line">  // 使用 trim() 来移除字符串开头和结尾的空格（如果有的话）  </span><br><span class="line">  // 使用 filter(Boolean) 来移除空字符串（如果它们存在的话）</span><br><span class="line"></span><br><span class="line">  </span><br><span class="line">  // 只修改这一行上面的代码</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">splitify(&quot;Hello World,I-am code&quot;);</span><br></pre></td></tr></table></figure>
+<h1 id="使用-join-方法将数组组合成字符串"><a href="#使用-join-方法将数组组合成字符串" class="headerlink" title="使用 join 方法将数组组合成字符串"></a>使用 join 方法将数组组合成字符串</h1><p>join 方法用来把数组中的所有元素放入一个字符串。 并通过指定的分隔符参数进行分隔。</p>
+<p>举个例子：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">const arr = [&quot;Hello&quot;, &quot;World&quot;];</span><br><span class="line">const str = arr.join(&quot; &quot;);</span><br></pre></td></tr></table></figure>
+<p>str 的值应该是字符串 Hello World。</p>
+<p>使用 join 方法将数组组合成字符串</p>
+<p>在函数 sentensify 内用 join 方法（及其他方法）用字符串 str 中的单词造句，这个函数应返回一个字符串。 该函数应返回一个数组。 举个例子，I-like-Star-Wars 会被转换成 I like Star Wars。 在此挑战中请勿使用 replace 方法。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">function sentensify(str) &#123;</span><br><span class="line">  // 只修改这一行下面的代码</span><br><span class="line"> </span><br><span class="line">  // 使用正则表达式来匹配任何非字母数字字符（除了空格）作为分隔符  </span><br><span class="line">  // 这将匹配连字符 -、点 .、逗号 , 以及其他任何非字母数字字符  </span><br><span class="line">  let words = str.split(/[^\w\s]+/); // 注意使用 + 来确保连续的分隔符只产生一个分割  </span><br><span class="line">  </span><br><span class="line">  // 通常不需要再次分割空格，因为上面的正则表达式已经处理了这个问题  </span><br><span class="line">  // 但如果由于某种原因需要确保数组中没有空字符串，可以使用 filter  </span><br><span class="line">  words = words.filter(Boolean); // 移除空字符串  </span><br><span class="line">  </span><br><span class="line">  // 使用 join 方法将数组中的单词用空格连接起来  </span><br><span class="line">  return words.join(&#x27; &#x27;);  </span><br><span class="line">&#125;  </span><br><span class="line"></span><br><span class="line">  // 只修改这一行上面的代码</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">sentensify(&quot;May-the-force-be-with-you&quot;);</span><br></pre></td></tr></table></figure>
+<h1 id="应用函数式编程将字符串转换为URL片段"><a href="#应用函数式编程将字符串转换为URL片段" class="headerlink" title="应用函数式编程将字符串转换为URL片段"></a>应用函数式编程将字符串转换为URL片段</h1><p>最后几个挑战中涵盖了许多符合函数式编程原则并在处理数组和字符串中非常有用的方法。 我们还学习了强大的、可以将问题简化为更简单形式的 reduce 方法。 从计算平均值到排序，任何数组操作都可以用它来实现。 回想一下，map 和 filter 方法都是 reduce 的特殊实现。</p>
+<p>让我们把学到的知识结合起来解决一个实际问题。</p>
+<p>许多内容管理站点（CMS）为了让添加书签更简单，会将帖子的标题添加到 URL 上。 举个例子，如果你写了一篇标题为 Stop Using Reduce 的帖子，URL很可能会包含标题字符串的某种形式 (如：…&#x2F;stop-using-reduce)。 你可能已经在 freeCodeCamp 网站上注意到了这一点。</p>
+<p>应用函数式编程将字符串转换为URL片段</p>
+<p>填写 urlSlug 函数，将字符串 title 转换成带有连字符号的 URL。 您可以使用本节中介绍的任何方法，但不要用 replace 方法。 以下是本次挑战的要求：</p>
+<p>输入包含空格和标题大小写单词的字符串</p>
+<p>输出字符串，单词之间的空格用连字符 (-) 替换</p>
+<p>输出应该是小写字母</p>
+<p>输出不应有任何空格</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line">// 只修改这一行下面的代码</span><br><span class="line">function urlSlug(title) &#123;  </span><br><span class="line"> return title.toLowerCase().trim().split(/\s+/).join(&#x27;-&#x27;);</span><br><span class="line">&#125;  </span><br><span class="line">// 只修改这一行上面的代码</span><br><span class="line">urlSlug(&quot;A Mind Needs Books Like A Sword Needs A Whetstone&quot;);</span><br><span class="line"></span><br><span class="line">/*</span><br><span class="line">str.toLowerCase(): 字符串字母均变为小写。</span><br><span class="line">str.trim():消除开头与结尾的空格。</span><br><span class="line">arr.join(&quot;&quot;):将数组连接为字符串。例如arr.join(’-’),用-连接数组中的每个元素。</span><br><span class="line">str.split():将字符串以指定的分隔符分割为一个数组。</span><br><span class="line">str.split(/\s+/) ： /\s+/ 匹配任何空白符，包括\n,\r,\f,\t,\v等（换行、回车、空格、tab等）</span><br><span class="line"></span><br><span class="line">str.split(/\w/): /\w/匹配“-”这一类的字符</span><br><span class="line"></span><br><span class="line">str.split(/\d/)：/\d/匹配数字。</span><br><span class="line">例如：a=“abcd2sees3ss”;</span><br><span class="line">a.split(/\d/)后的结果为[“abcd”,“sees”,“ss”]这样</span><br><span class="line"></span><br><span class="line">点str.split(&quot;[.]&quot;)</span><br><span class="line">竖线str.split(&quot;\|&quot;)</span><br><span class="line">星号 str.split(&quot;\*&quot;)</span><br><span class="line">斜线 str.split(&quot;\ \ \ \ “)</span><br><span class="line">中括号 str.split(”\ \ [\ \ ]&quot;)</span><br><span class="line">*/</span><br></pre></td></tr></table></figure>
+<h1 id="使用-every-方法检查数组中的每个元素是否符合条件"><a href="#使用-every-方法检查数组中的每个元素是否符合条件" class="headerlink" title="使用 every 方法检查数组中的每个元素是否符合条件"></a>使用 every 方法检查数组中的每个元素是否符合条件</h1><p>every 方法用于检测数组中所有元素是否都符合指定条件。 如果所有元素满足条件，返回布尔值 true，反之返回 false。</p>
+<p>举个例子，下面的代码检测数组 numbers 的所有元素是否都小于 10：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">const numbers = [1, 5, 8, 0, 10, 11];</span><br><span class="line"></span><br><span class="line">numbers.every(function(currentValue) &#123;</span><br><span class="line">  return currentValue &lt; 10;</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+<p>every 方法在这里会返回 false。</p>
+<p>使用 every 方法检查数组中的每个元素是否符合条件</p>
+<p>在 checkPositive 函数中使用 every 方法检查 arr 中是否所有元素都是正数。 函数应返回一个布尔值。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">function checkPositive(arr) &#123;</span><br><span class="line">  // 只修改这一行下面的代码</span><br><span class="line"></span><br><span class="line">return arr.every(function(currentValue) &#123;//注意这里也要写一个return </span><br><span class="line">  return currentValue &gt; 0;</span><br><span class="line">&#125;);</span><br><span class="line">  // 只修改这一行上面的代码</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">checkPositive([1, 2, 3, -4, 5]);</span><br></pre></td></tr></table></figure>
+<h1 id="使用-some-方法检查数组中是否有元素是否符合条件"><a href="#使用-some-方法检查数组中是否有元素是否符合条件" class="headerlink" title="使用 some 方法检查数组中是否有元素是否符合条件"></a>使用 some 方法检查数组中是否有元素是否符合条件</h1><p>some 方法用于检测数组中任何元素是否满足指定条件。 如果有一个元素满足条件，返回布尔值 true，反之返回 false。</p>
+<p>举个例子，下面的代码检测数组numbers中是否有元素小于 10：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">const numbers = [10, 50, 8, 220, 110, 11];</span><br><span class="line"></span><br><span class="line">numbers.some(function(currentValue) &#123;</span><br><span class="line">  return currentValue &lt; 10;</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+<p>some 方法将返回 true。</p>
+<p>使用 some 方法检查数组中是否有元素是否符合条件</p>
+<p>在 checkPositive 函数值中使用 some 检查 arr 中是否有元素为正数。 函数应返回一个布尔值。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">function checkPositive(arr) &#123;</span><br><span class="line">  // 只修改这一行下面的代码</span><br><span class="line"></span><br><span class="line">return arr.some(function(currentValue) &#123;</span><br><span class="line">  return currentValue &gt; 0;</span><br><span class="line">&#125;);</span><br><span class="line">  // 只修改这一行上面的代码</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">checkPositive([1, 2, 3, -4, 5]);</span><br></pre></td></tr></table></figure>
+<h1 id="函数柯里化和局部调用"><a href="#函数柯里化和局部调用" class="headerlink" title="函数柯里化和局部调用"></a>函数柯里化和局部调用</h1><p>arity（参数个数）是函数所需的形参的数量。 函数柯里化（Currying）意思是把接受多个 arity 的函数变换成接受单一 arity 的函数。</p>
+<p>换句话说，就是重构函数让它接收一个参数，然后返回接收下一个参数的函数，依此类推。</p>
+<p>举个例子：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">function unCurried(x, y) &#123;</span><br><span class="line">  return x + y;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">function curried(x) &#123;</span><br><span class="line">  return function(y) &#123;</span><br><span class="line">    return x + y;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">const curried = x =&gt; y =&gt; x + y</span><br><span class="line"></span><br><span class="line">curried(1)(2)</span><br><span class="line">curried(1)(2) 会返回 3。</span><br></pre></td></tr></table></figure>
+<p>柯里化在不能一次为函数提供所有参数情况下很有用。 因为它可以将每个函数的调用保存到一个变量中，该变量将保存返回的函数引用，该引用在下一个参数可用时接受该参数。 下面是使用柯里化函数的例子：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">const funcForY = curried(1);</span><br><span class="line">console.log(funcForY(2)); // 3</span><br></pre></td></tr></table></figure>
+<p>类似地，局部调用（ partial application）的意思是一次对一个函数应用几个参数，然后返回另一个应用更多参数的函数。 这是一个示例：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">function impartial(x, y, z) &#123;</span><br><span class="line">  return x + y + z;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">const partialFn = impartial.bind(this, 1, 2);</span><br><span class="line">partialFn(10); // 13</span><br></pre></td></tr></table></figure>
+<p>函数柯里化和局部调用</p>
+<p>填写 add 函数主体部分，用柯里化添加参数 x，y 和 z.</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">function add(x) &#123;</span><br><span class="line">  // 只修改这一行下面的代码</span><br><span class="line">  return function(y) &#123;  </span><br><span class="line">    return function(z) &#123;  </span><br><span class="line">      return x + y + z;  </span><br><span class="line">    &#125;;  </span><br><span class="line">  &#125;; </span><br><span class="line"></span><br><span class="line">  // 只修改这一行上面的代码</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">add(10)(20)(30);</span><br></pre></td></tr></table></figure>
+
+
+
+
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta"><i class="fas fa-circle-user fa-fw"></i>文章作者: </span><span class="post-copyright-info"><a href="http://example.com">晚风温柔苍生</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta"><i class="fas fa-square-arrow-up-right fa-fw"></i>文章链接: </span><span class="post-copyright-info"><a href="http://example.com/2024/07/17/%E5%87%BD%E6%95%B0%E5%BC%8F%E7%BC%96%E7%A8%8B/">http://example.com/2024/07/17/%E5%87%BD%E6%95%B0%E5%BC%8F%E7%BC%96%E7%A8%8B/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta"><i class="fas fa-circle-exclamation fa-fw"></i>版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="http://example.com" target="_blank">晚风的喵喵屋吖</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"></div><div class="post_share"><div class="social-share" data-image="/img/index%20img.jpg" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.3/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.3/sharejs/dist/js/social-share.min.js" defer></script></div></div><div class="post-reward"><div class="reward-button"><i class="fas fa-qrcode"></i>赞助</div><div class="reward-main"><ul class="reward-all"><li class="reward-item"><a href="/img/wechat.png" target="_blank"><img class="post-qr-code-img" src="/img/wechat.png" alt="微信"/></a><div class="post-qr-code-desc">微信</div></li><li class="reward-item"><a href="/img/alipay.jpg" target="_blank"><img class="post-qr-code-img" src="/img/alipay.jpg" alt="支付宝"/></a><div class="post-qr-code-desc">支付宝</div></li></ul></div></div><nav class="pagination-post" id="pagination"><div class="next-post pull-full"><a href="/2024/07/16/%E5%9F%BA%E7%A1%80%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/" title="基础数据结构"><img class="cover" src="/img/index%20img.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">基础数据结构</div></div></a></div></nav><hr class="custom-hr"/><div id="post-comment"><div class="comment-head"><div class="comment-headline"><i class="fas fa-comments fa-fw"></i><span> 评论</span></div></div><div class="comment-wrap"><div><div class="vcomment" id="vcomment"></div></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="is-center"><div class="avatar-img"><img src="/img/favicon.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info__name">晚风温柔苍生</div><div class="author-info__description">我是晚风吖~</div></div><div class="card-info-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">12</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">0</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">0</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/xxxxxx"><i class="fab fa-github"></i><span>Follow Me</span></a></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>公告</span></div><div class="announcement_content">This is my Blog</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%AD%A6%E4%B9%A0%E5%87%BD%E6%95%B0%E5%BC%8F%E7%BC%96%E7%A8%8B"><span class="toc-number">1.</span> <span class="toc-text">学习函数式编程</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E4%BA%86%E8%A7%A3%E5%87%BD%E6%95%B0%E5%BC%8F%E7%BC%96%E7%A8%8B%E6%9C%AF%E8%AF%AD"><span class="toc-number">2.</span> <span class="toc-text">了解函数式编程术语</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E4%BA%86%E8%A7%A3%E4%BD%BF%E7%94%A8%E5%91%BD%E4%BB%A4%E5%BC%8F%E7%BC%96%E7%A8%8B%E7%9A%84%E5%8D%B1%E5%AE%B3"><span class="toc-number">3.</span> <span class="toc-text">了解使用命令式编程的危害</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E4%BD%BF%E7%94%A8%E5%87%BD%E6%95%B0%E5%BC%8F%E7%BC%96%E7%A8%8B%E9%81%BF%E5%85%8D%E5%8F%98%E5%8C%96%E5%92%8C%E5%89%AF%E4%BD%9C%E7%94%A8"><span class="toc-number">4.</span> <span class="toc-text">使用函数式编程避免变化和副作用</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E4%BC%A0%E9%80%92%E5%8F%82%E6%95%B0%E4%BB%A5%E9%81%BF%E5%85%8D%E5%87%BD%E6%95%B0%E4%B8%AD%E7%9A%84%E5%A4%96%E9%83%A8%E4%BE%9D%E8%B5%96"><span class="toc-number">5.</span> <span class="toc-text">传递参数以避免函数中的外部依赖</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%9C%A8%E5%87%BD%E6%95%B0%E4%B8%AD%E9%87%8D%E6%9E%84%E5%85%A8%E5%B1%80%E5%8F%98%E9%87%8F"><span class="toc-number">6.</span> <span class="toc-text">在函数中重构全局变量</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E4%BD%BF%E7%94%A8-map-%E6%96%B9%E6%B3%95%E4%BB%8E%E6%95%B0%E7%BB%84%E4%B8%AD%E6%8F%90%E5%8F%96%E6%95%B0%E6%8D%AE"><span class="toc-number">7.</span> <span class="toc-text">使用 map 方法从数组中提取数据</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%9C%A8%E5%8E%9F%E5%9E%8B%E4%B8%8A%E5%AE%9E%E7%8E%B0map%E6%96%B9%E6%B3%95"><span class="toc-number">8.</span> <span class="toc-text">在原型上实现map方法</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E4%BD%BF%E7%94%A8-filter-%E6%96%B9%E6%B3%95%E4%BB%8E%E6%95%B0%E7%BB%84%E4%B8%AD%E6%8F%90%E5%8F%96%E6%95%B0%E6%8D%AE"><span class="toc-number">9.</span> <span class="toc-text">使用 filter 方法从数组中提取数据</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%9C%A8%E5%8E%9F%E5%9E%8B%E4%B8%8A%E5%AE%9E%E7%8E%B0-filter-%E6%96%B9%E6%B3%95"><span class="toc-number">10.</span> <span class="toc-text">在原型上实现 filter 方法</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E4%BD%BF%E7%94%A8-slice-%E6%96%B9%E6%B3%95%E8%BF%94%E5%9B%9E%E6%95%B0%E7%BB%84%E7%9A%84%E4%B8%80%E9%83%A8%E5%88%86"><span class="toc-number">11.</span> <span class="toc-text">使用 slice 方法返回数组的一部分</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E4%BD%BF%E7%94%A8-slice-%E8%80%8C%E4%B8%8D%E6%98%AF-splice-%E4%BB%8E%E6%95%B0%E7%BB%84%E4%B8%AD%E7%A7%BB%E9%99%A4%E5%85%83%E7%B4%A0"><span class="toc-number">12.</span> <span class="toc-text">使用 slice 而不是 splice 从数组中移除元素</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E4%BD%BF%E7%94%A8-concat-%E6%96%B9%E6%B3%95%E7%BB%84%E5%90%88%E4%B8%A4%E4%B8%AA%E6%95%B0%E7%BB%84"><span class="toc-number">13.</span> <span class="toc-text">使用 concat 方法组合两个数组</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E4%BD%BF%E7%94%A8-concat-%E8%80%8C%E4%B8%8D%E6%98%AF-push-%E5%B0%86%E5%85%83%E7%B4%A0%E6%B7%BB%E5%8A%A0%E5%88%B0%E6%95%B0%E7%BB%84%E7%9A%84%E6%9C%AB%E5%B0%BE"><span class="toc-number">14.</span> <span class="toc-text">使用 concat 而不是 push 将元素添加到数组的末尾</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E4%BD%BF%E7%94%A8-reduce-%E6%96%B9%E6%B3%95%E5%88%86%E6%9E%90%E6%95%B0%E6%8D%AE"><span class="toc-number">15.</span> <span class="toc-text">使用 reduce 方法分析数据</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E4%BD%BF%E7%94%A8%E9%AB%98%E9%98%B6%E5%87%BD%E6%95%B0-map%E3%80%81filter-%E6%88%96%E8%80%85-reduce-%E6%9D%A5%E8%A7%A3%E5%86%B3%E5%A4%8D%E6%9D%82%E9%97%AE%E9%A2%98"><span class="toc-number">16.</span> <span class="toc-text">使用高阶函数 map、filter 或者 reduce 来解决复杂问题</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E4%BD%BF%E7%94%A8-sort-%E6%96%B9%E6%B3%95%E6%8C%89%E5%AD%97%E6%AF%8D%E9%A1%BA%E5%BA%8F%E7%BB%99%E6%95%B0%E7%BB%84%E6%8E%92%E5%BA%8F"><span class="toc-number">17.</span> <span class="toc-text">使用 sort 方法按字母顺序给数组排序</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%9C%A8%E4%B8%8D%E6%9B%B4%E6%94%B9%E5%8E%9F%E5%A7%8B%E6%95%B0%E7%BB%84%E7%9A%84%E5%89%8D%E6%8F%90%E4%B8%8B%E8%BF%94%E5%9B%9E%E6%8E%92%E5%BA%8F%E5%90%8E%E7%9A%84%E6%95%B0%E7%BB%84"><span class="toc-number">18.</span> <span class="toc-text">在不更改原始数组的前提下返回排序后的数组</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E4%BD%BF%E7%94%A8-split-%E6%96%B9%E6%B3%95%E5%B0%86%E5%AD%97%E7%AC%A6%E4%B8%B2%E6%8B%86%E5%88%86%E6%88%90%E6%95%B0%E7%BB%84"><span class="toc-number">19.</span> <span class="toc-text">使用 split 方法将字符串拆分成数组</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E4%BD%BF%E7%94%A8-join-%E6%96%B9%E6%B3%95%E5%B0%86%E6%95%B0%E7%BB%84%E7%BB%84%E5%90%88%E6%88%90%E5%AD%97%E7%AC%A6%E4%B8%B2"><span class="toc-number">20.</span> <span class="toc-text">使用 join 方法将数组组合成字符串</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%BA%94%E7%94%A8%E5%87%BD%E6%95%B0%E5%BC%8F%E7%BC%96%E7%A8%8B%E5%B0%86%E5%AD%97%E7%AC%A6%E4%B8%B2%E8%BD%AC%E6%8D%A2%E4%B8%BAURL%E7%89%87%E6%AE%B5"><span class="toc-number">21.</span> <span class="toc-text">应用函数式编程将字符串转换为URL片段</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E4%BD%BF%E7%94%A8-every-%E6%96%B9%E6%B3%95%E6%A3%80%E6%9F%A5%E6%95%B0%E7%BB%84%E4%B8%AD%E7%9A%84%E6%AF%8F%E4%B8%AA%E5%85%83%E7%B4%A0%E6%98%AF%E5%90%A6%E7%AC%A6%E5%90%88%E6%9D%A1%E4%BB%B6"><span class="toc-number">22.</span> <span class="toc-text">使用 every 方法检查数组中的每个元素是否符合条件</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E4%BD%BF%E7%94%A8-some-%E6%96%B9%E6%B3%95%E6%A3%80%E6%9F%A5%E6%95%B0%E7%BB%84%E4%B8%AD%E6%98%AF%E5%90%A6%E6%9C%89%E5%85%83%E7%B4%A0%E6%98%AF%E5%90%A6%E7%AC%A6%E5%90%88%E6%9D%A1%E4%BB%B6"><span class="toc-number">23.</span> <span class="toc-text">使用 some 方法检查数组中是否有元素是否符合条件</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%87%BD%E6%95%B0%E6%9F%AF%E9%87%8C%E5%8C%96%E5%92%8C%E5%B1%80%E9%83%A8%E8%B0%83%E7%94%A8"><span class="toc-number">24.</span> <span class="toc-text">函数柯里化和局部调用</span></a></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/2024/07/17/%E5%87%BD%E6%95%B0%E5%BC%8F%E7%BC%96%E7%A8%8B/" title="函数式编程"><img src="/img/index%20img.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="函数式编程"/></a><div class="content"><a class="title" href="/2024/07/17/%E5%87%BD%E6%95%B0%E5%BC%8F%E7%BC%96%E7%A8%8B/" title="函数式编程">函数式编程</a><time datetime="2024-07-17T15:15:59.304Z" title="发表于 2024-07-17 23:15:59">2024-07-17</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2024/07/16/%E5%9F%BA%E7%A1%80%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/" title="基础数据结构"><img src="/img/index%20img.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="基础数据结构"/></a><div class="content"><a class="title" href="/2024/07/16/%E5%9F%BA%E7%A1%80%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/" title="基础数据结构">基础数据结构</a><time datetime="2024-07-16T09:20:39.960Z" title="发表于 2024-07-16 17:20:39">2024-07-16</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2024/07/16/React/" title="React"><img src="/img/index%20img.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="React"/></a><div class="content"><a class="title" href="/2024/07/16/React/" title="React">React</a><time datetime="2024-07-16T03:41:05.708Z" title="发表于 2024-07-16 11:41:05">2024-07-16</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2024/07/15/jQuery%E6%A1%86%E6%9E%B6(DOM)/" title="jQuery框架(DOM)"><img src="/img/index%20img.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="jQuery框架(DOM)"/></a><div class="content"><a class="title" href="/2024/07/15/jQuery%E6%A1%86%E6%9E%B6(DOM)/" title="jQuery框架(DOM)">jQuery框架(DOM)</a><time datetime="2024-07-15T15:53:52.355Z" title="发表于 2024-07-15 23:53:52">2024-07-15</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2024/07/13/JavaScript/" title="JavaScript"><img src="/img/index%20img.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="JavaScript"/></a><div class="content"><a class="title" href="/2024/07/13/JavaScript/" title="JavaScript">JavaScript</a><time datetime="2024-07-13T04:40:54.263Z" title="发表于 2024-07-13 12:40:54">2024-07-13</time></div></div></div></div></div></div></main><footer id="footer" style="background-image: url('/img/index%20img.jpg')"><div id="footer-wrap"><div class="copyright">&copy;2020 - 2024 By 晚风温柔苍生</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside-config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><a id="to_comment" href="#post-comment" title="直达评论"><i class="fas fa-comments"></i></a><button id="go-up" type="button" title="回到顶部"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js?v=4.14.0-b3"></script><script src="/js/main.js?v=4.14.0-b3"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui@5.0.35/dist/fancybox/fancybox.umd.min.js"></script><div class="js-pjax"><script>(() => {
+  const runMermaid = (ele) => {
+    window.loadMermaid = true
+    const theme = document.documentElement.getAttribute('data-theme') === 'dark' ? 'dark' : 'default'
+
+    Array.from(ele).forEach((item, index) => {
+      const mermaidSrc = item.firstElementChild
+      const mermaidThemeConfig = '%%{init:{ \'theme\':\'' + theme + '\'}}%%\n'
+      const mermaidID = 'mermaid-' + index
+      const mermaidDefinition = mermaidThemeConfig + mermaidSrc.textContent
+
+      const renderFn = mermaid.render(mermaidID, mermaidDefinition)
+
+      const renderV10 = () => {
+        renderFn.then(({svg}) => {
+          mermaidSrc.insertAdjacentHTML('afterend', svg)
+        })
+      }
+
+      const renderV9 = svg => {
+        mermaidSrc.insertAdjacentHTML('afterend', svg)
+      }
+
+      typeof renderFn === 'string' ? renderV9(renderFn) : renderV10()
+    })
+  }
+
+  const codeToMermaid = () => {
+    const codeMermaidEle = document.querySelectorAll('pre > code.mermaid')
+    if (codeMermaidEle.length === 0) return
+    
+    codeMermaidEle.forEach(ele => {
+      const newEle = document.createElement('div')
+      newEle.className = 'mermaid-wrap'
+      newEle.innerHTML = `<pre class="mermaid-src" hidden>${ele.textContent}</pre>`
+      ele.parentNode.replaceWith(newEle)
+    })
+  }
+
+  const loadMermaid = () => {
+    if (false) codeToMermaid()
+    const $mermaid = document.querySelectorAll('#article-container .mermaid-wrap')
+    if ($mermaid.length === 0) return
+
+    const runMermaidFn = () => runMermaid($mermaid)
+    btf.addGlobalFn('themeChange', runMermaidFn, 'mermaid')
+    window.loadMermaid ? runMermaidFn() : btf.getScript('https://cdn.jsdelivr.net/npm/mermaid@10.9.0/dist/mermaid.min.js').then(runMermaidFn)
+  }
+  
+  btf.addGlobalFn('encrypt', loadMermaid, 'mermaid')
+  window.pjax ? loadMermaid() : document.addEventListener('DOMContentLoaded', loadMermaid)
+})()</script><script>(() => {
+  const initValine = () => {
+    const valine = new Valine(Object.assign({
+      el: '#vcomment',
+      appId: '6w3iig24wOf79eV25khBRlpG-MdYXbMMI',
+      appKey: 'R3mFLiLWf7D8xSebljp3qDFJ',
+      avatar: 'monsterid',
+      serverURLs: 'https://6w3iig24.api.lncldglobal.com',
+      emojiMaps: "",
+      path: window.location.pathname,
+      visitor: false
+    }, {"placeholder":"ヾﾉ≧∀≦)o快来评论一下吧!","pageSize":10}))
+  }
+
+  const loadValine = async () => {
+    if (typeof Valine === 'function') initValine()
+    else {
+      await btf.getScript('https://cdn.jsdelivr.net/npm/valine@1.5.1/dist/Valine.min.js')
+      initValine()
+    }
+  }
+
+  if ('Valine' === 'Valine' || !true) {
+    if (true) btf.loadComment(document.getElementById('vcomment'),loadValine)
+    else setTimeout(loadValine, 0)
+  } else {
+    window.loadOtherComment = loadValine
+  }
+})()</script></div><script id="canvas_nest" defer="defer" color="0,0,255" opacity="0.7" zIndex="-1" count="99" mobile="false" src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.3/dist/canvas-nest.min.js"></script><script id="click-heart" src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.3/dist/click-heart.min.js" async="async" mobile="false"></script><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script><div id="local-search"><div class="search-dialog"><nav class="search-nav"><span class="search-dialog-title">搜索</span><span id="loading-status"></span><button class="search-close-button"><i class="fas fa-times"></i></button></nav><div class="is-center" id="loading-database"><i class="fas fa-spinner fa-pulse"></i><span>  数据库加载中</span></div><div class="search-wrap"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="搜索文章" type="text"/></div></div><hr/><div id="local-search-results"></div><div id="local-search-stats-wrap"></div></div></div><div id="search-mask"></div><script src="/js/search/local-search.js?v=4.14.0-b3"></script></div></div></body></html>
